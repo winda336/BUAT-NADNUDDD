@@ -42,17 +42,9 @@
 <body>
 
 <div id="box">
-  <!-- Halaman 1: Pilih Lagu & Tema -->
+  <!-- Halaman 1: Pilih Tema -->
   <div id="page1">
-    <h3>Pilih lagu buat nemenin kamu 🎧</h3>
-    <select id="musicSelect">
-      <option value="">- Pilih Lagu -</option>
-      <option value="lagu1.mp3">Lagu 1</option>
-      <option value="lagu2.mp3">Lagu 2</option>
-      <option value="lagu3.mp3">Lagu 3</option>
-    </select>
-
-    <h3 style="margin-top:25px">Pilih tema warna 🎨</h3>
+    <h3>Pilih tema warna 🎨</h3>
     <select id="colorSelect">
       <option value="#fce4ec">Pink Lembut</option>
       <option value="#e3f2fd">Biru Pastel</option>
@@ -63,14 +55,19 @@
     <button onclick="startExperience()">Mulai</button>
   </div>
 
-  <!-- Halaman 2: Sapaan Next Next -->
+  <!-- Halaman 2: Sapaan Next -->
   <div id="page2" style="display:none;">
     <p id="text">Haii! 👋</p>
     <button onclick="nextText()">Next</button>
   </div>
-</div>
 
-<audio id="bgMusic" loop></audio>
+  <!-- Halaman 3: Musik (kosong dulu) -->
+  <div id="pageMusic" style="display:none;">
+    <h3>Halaman Musik 🎧</h3>
+    <p>Musik akan ditambahkan di sini nanti yaa 💗</p>
+  </div>
+
+</div>
 
 <script>
   let step = 0;
@@ -88,28 +85,24 @@
   ];
 
   function startExperience() {
-    const chosenMusic = document.getElementById('musicSelect').value;
     const chosenColor = document.getElementById('colorSelect').value;
-
-    // Set background
     document.body.style.background = chosenColor;
 
-    // Play music if selected
-    if (chosenMusic) {
-      const audio = document.getElementById('bgMusic');
-      audio.src = chosenMusic;
-      audio.play();
-    }
-
-    // Show next page
     document.getElementById('page1').style.display = 'none';
     document.getElementById('page2').style.display = 'block';
   }
 
   function nextText() {
     step++;
-    if(step < messages.length) {
+    if (step < messages.length) {
       document.getElementById('text').innerText = messages[step];
     } else {
-      document.getElementById('text').innerText = "Selamat ulang tahun yaa!! 🎉💗";
+      // Masuk ke halaman musik kosong
+      document.getElementById('page2').style.display = 'none';
+      document.getElementById('pageMusic').style.display = 'block';
     }
+  }
+</script>
+
+</body>
+</html>
