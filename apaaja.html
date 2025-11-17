@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surprise Birthday</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fce4ec;
+      text-align: center;
+      padding: 80px 20px;
+      transition: background 0.5s;
+    }
+    #box {
+      background: white;
+      padding: 30px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      border: none;
+      background: #ec407a;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #d81b60;
+    }
+    select {
+      padding: 10px;
+      margin-top: 15px;
+      width: 90%;
+    }
+  </style>
+</head>
+<body>
+
+<div id="box">
+  <!-- Halaman 1: Pilih Lagu & Tema -->
+  <div id="page1">
+    <h3>Pilih lagu buat nemenin kamu 🎧</h3>
+    <select id="musicSelect">
+      <option value="">- Pilih Lagu -</option>
+      <option value="lagu1.mp3">Lagu 1</option>
+      <option value="lagu2.mp3">Lagu 2</option>
+      <option value="lagu3.mp3">Lagu 3</option>
+    </select>
+
+    <h3 style="margin-top:25px">Pilih tema warna 🎨</h3>
+    <select id="colorSelect">
+      <option value="#fce4ec">Pink Lembut</option>
+      <option value="#e3f2fd">Biru Pastel</option>
+      <option value="#f3e5f5">Ungu Pastel</option>
+      <option value="#fff9c4">Kuning Cerah</option>
+    </select>
+
+    <button onclick="startExperience()">Mulai</button>
+  </div>
+
+  <!-- Halaman 2: Sapaan Next Next -->
+  <div id="page2" style="display:none;">
+    <p id="text">Haii! 👋</p>
+    <button onclick="nextText()">Next</button>
+  </div>
+</div>
+
+<audio id="bgMusic" loop></audio>
+
+<script>
+  let step = 0;
+  const messages = [
+    "Haii! 👋",
+    "Aku mau ngomong sesuatu nih...",
+    "Tapi jangan kaget ya 😆",
+    "Sebelumnya makasih udah buka web ini dulu hehe",
+    "Aku banyak mau ngomong tapi pencet next dulu aja ya 🙈",
+    "Serius deh pencet lagi wkwk",
+    "Dikit lagi kok tenang aja 😭",
+    "Okee siap? terakhir nih...",
+    "TAPIII pencet lagi dulu 😝",
+    "Heheh sekarang serius..."
+  ];
+
+  function startExperience() {
+    const chosenMusic = document.getElementById('musicSelect').value;
+    const chosenColor = document.getElementById('colorSelect').value;
+
+    // Set background
+    document.body.style.background = chosenColor;
+
+    // Play music if selected
+    if (chosenMusic) {
+      const audio = document.getElementById('bgMusic');
+      audio.src = chosenMusic;
+      audio.play();
+    }
+
+    // Show next page
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'block';
+  }
+
+  function nextText() {
+    step++;
+    if(step < messages.length) {
+      document.getElementById('text').innerText = messages[step];
+    } else {
+      document.getElementById('text').innerText = "Selamat ulang tahun yaa!! 🎉💗";
+    }
