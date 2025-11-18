@@ -42,7 +42,7 @@
 <body>
 
 <div id="box">
-  <!-- Halaman 1: Pilih Tema -->
+
   <div id="page1">
     <h3>Pilih tema warna 🎨</h3>
     <select id="colorSelect">
@@ -55,16 +55,15 @@
     <button onclick="startExperience()">Mulai</button>
   </div>
 
-  <!-- Halaman 2: Sapaan Next -->
   <div id="page2" style="display:none;">
     <p id="text">Haii! 👋</p>
     <button onclick="nextText()">Next</button>
   </div>
 
-  <!-- Halaman 3: Musik (kosong dulu) -->
+
   <div id="pageMusic" style="display:none;">
     <h3>Halaman Musik 🎧</h3>
-    <p>Musik akan ditambahkan di sini nanti yaa 💗</p>
+    <p>Nanti ini isinya musik💗</p>
   </div>
 
 </div>
@@ -73,15 +72,15 @@
   let step = 0;
   const messages = [
     "Haii! 👋",
-    "Aku mau ngomong sesuatu nih...",
-    "Tapi jangan kaget ya 😆",
+    "1",
+    "2 😆",
     "Sebelumnya makasih udah buka web ini dulu hehe",
-    "Aku banyak mau ngomong tapi pencet next dulu aja ya 🙈",
-    "Serius deh pencet lagi wkwk",
-    "Dikit lagi kok tenang aja 😭",
-    "Okee siap? terakhir nih...",
-    "TAPIII pencet lagi dulu 😝",
-    "Heheh sekarang serius..."
+    "apa aja lah ini belum selesai🙈",
+    "wkwk",
+    "bentar😭",
+    "Okee",
+    "😝",
+    "yhh intinya gini ya semoga waktunya cukup wkwkw"
   ];
 
   function startExperience() {
@@ -97,7 +96,7 @@
     if (step < messages.length) {
       document.getElementById('text').innerText = messages[step];
     } else {
-      // Masuk ke halaman musik kosong
+      
       document.getElementById('page2').style.display = 'none';
       document.getElementById('pageMusic').style.display = 'block';
     }
@@ -106,4 +105,5 @@
 
 </body>
 </html>
+
 
