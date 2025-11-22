@@ -4,107 +4,594 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Selamat Datang di 20!</title>
+
   <style>
     body {
+      margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      background: #fce4ec;
+      overflow: hidden; 
+      background-image: url('images/BG1.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .page {
+      height: 100vh;
+      width: 100vw;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
       text-align: center;
-      padding: 80px 20px;
-      transition: background 0.5s;
     }
-    #box {
-      background: white;
-      padding: 30px;
-      max-width: 400px;
-      margin: auto;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+
+    #fireworksCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 250px; 
+      pointer-events: none;
+      z-index: 2;
     }
+
+    #pageFinal {
+      display: none;                
+      flex-direction: column;
+      justify-content: flex-start;  
+      align-items: center;
+      padding: 40px;
+      height: 100vh;
+      width: 100vw;
+      overflow-y: auto;            
+      box-sizing: border-box;
+    }
+
     button {
-      padding: 10px 20px;
+      padding: 12px 25px;
       margin-top: 20px;
       border: none;
-      background: #ec407a;
+      background: skyblue;
       color: white;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
+      font-size: 16px;
     }
+
+    .image-grid {
+      margin-top: 40px;
+      background: rgba(255,255,255,0.15); 
+      padding: 30px;
+      border-radius: 15px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 80%;
+      max-width: 700px;
+    }
+
+    .img-box {
+      width: 100%;
+      height: 220px;
+      background: #FFF6C7; 
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;                   
+      transform: scale(0.7);        
+      transition: 0.6s ease;        
+    }
+
+    .img-box.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .img-box img {
+      width: 95%;
+      height: 95%;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+
     button:hover {
-      background: #d81b60;
+      background: blue;
     }
+
     select {
       padding: 10px;
       margin-top: 15px;
-      width: 90%;
+      width: 200px;
     }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 300px;
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10vh) scale(0.7); opacity: 1; }
+      100% { transform: translateY(100vh) scale(1.2); opacity: 0; }
+    }
+
+    .heart {
+      position: absolute;
+      color: pink;
+      font-size: 20px;
+      animation: fall 4s linear infinite;
+      opacity: 0.8;
+    }
+
+    .letter-box {
+      width: 80%;
+      max-width: 700px;
+      margin-top: 40px;
+      background: rgba(255,255,255,0.15);
+      padding: 25px;
+      border-radius: 12px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0px 0px 15px rgba(255,255,255,0.2);
+    }
+
+    .cards-container {
+      margin-top: 20px;
+      width: 90%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      position: relative;
+      height: 300px;
+      width: 240px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:18px;
+      font-weight:bold;
+      color:black;
+    }
+
+    .card-front {
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(6px);
+    }
+
+    .card-back {
+      background: rgba(255,255,255,0.1);
+      transform: rotateY(180deg);
+      backdrop-filter: blur(4px);
+    }
+
+    .card.open .card-front {
+      transform: rotateY(180deg);
+    }
+    .card.open .card-back {
+      transform: rotateY(0);
+    }
+
+    .card-front, .card-back {
+      transition: transform 0.6s;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 15px;
+    }
+
+    .music-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .music-item {
+      background: white;
+      padding: 10px 15px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .music-item:hover {
+      transform: scale(1.03);
+      background: #f4f4f4;
+    }
+
+    .cover {
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
   </style>
+    
 </head>
-<body>
+<body onload="showIntro()">
 
-<div id="box">
+<div id="pageIntro" class="page" style="display:flex;">
+  <h1 style="font-size:40px;color:white;font-weight:bold;
+             text-shadow:0 0 10px rgba(0,0,0,0.6);">
+    PETUNJUK & TEKNIS
+  </h1>
 
-  <div id="page1">
-    <h3>Pilih tema warna 🎨</h3>
+  <p style="color:white;font-size:18px;width:70%;
+            text-shadow:0 0 8px rgba(0,0,0,0.5);margin-top:10px;">
+    Sebelum mulai, ada sedikit petunjuk dan teknis <br><br>
+    • Liat dan perhatiin keychain yang aku kasih<br>
+    • Dibawah barcode ada kode spotify, scan kodenya di pencarian spotify pake fitur kamera di sebelahnya<br>
+    • Kalo udah yaudah hehe, taruh keychainnya trus lanjut baca ini<br>
+    • Klik tombol NEXT terus aja yaa nanti kalau diminta<br>
+    <br><br>
+    Kalau udah siap, klik Next dan YEY WELCOME
+  </p>
+
+  <button onclick="goToWelcome()">Next</button>
+</div>
+
+
+<div id="page0" class="page">
+  <h1 style="font-size:48px;color:white;font-weight:bold;
+             text-shadow:0 0 10px rgba(0,0,0,0.6);">
+    SELAMAT DATANG DI 20
+  </h1>
+
+  <p style="color:white;font-size:18px;text-shadow:0 0 8px rgba(0,0,0,0.5);">
+    next nexttt untuk melihat selanjutnya ada apa
+  </p>
+
+  <button onclick="goToPage1()">Next</button>
+</div>
+
+<div id="page1" class="page">
+  <div class="box">
+    <h3>Sebelum ituu, pilih nad kamu mau tema warna apaaa 🎨</h3>
     <select id="colorSelect">
-      <option value="#fce4ec">Pink Lembut</option>
-      <option value="#e3f2fd">Biru Pastel</option>
-      <option value="#f3e5f5">Ungu Pastel</option>
-      <option value="#fff9c4">Kuning Cerah</option>
+      <option value="#fce4ec">Pink Soft</option>
+      <option value="#e3f2fd">Baby Blue</option>
+      <option value="#f3e5f5">Light Purple</option>
+      <option value="#fff9c4">Yellow Bright</option>
+      <option value="#c1ff72">Fresh Lemon</option>
+      <option value="#ff914d">Orange</option>
+      <option value="#e2a9f1">Lavender</option>
+      <option value="#cf7653">Cute Chocolate (ini gemes)</option>
     </select>
-
     <button onclick="startExperience()">Mulai</button>
   </div>
+</div>
 
-  <div id="page2" style="display:none;">
-    <p id="text">Haii! 👋</p>
-    <button onclick="nextText()">Next</button>
+<div id="pageMusic" class="page">
+  <div class="box" style="text-align:center;">
+
+    <h2 style="margin-bottom:10px;">Pilih Musik Dulu 🎧</h2>
+    <p style="margin-bottom:20px;">Biar ga sepi, pilih salah satu lagu di bawah ini ya...</p>
+
+    <div class="music-list">
+
+      <div class="music-item" onclick="playMusic('song1')">
+        <img src="images/lagu1.jpg" class="cover"> 
+        <p>Teman Sejati - HIVI!</p> 
+      </div>
+
+      <div class="music-item" onclick="playMusic('song2')">
+        <img src="images/lagu2.jpg" class="cover"> 
+        <p>Semua Aku Dirayakan - Nadin Amizah</p>
+      </div>
+
+      <div class="music-item" onclick="playMusic('song3')">
+        <img src="images/lagu3.jpg" class="cover"> 
+        <p>Bahagia - GAC</p>
+      </div>
+
+    </div>
+
+    <audio id="song1" src="music/lagu1.mp3"></audio>
+    <audio id="song2" src="music/lagu2.mp3"></audio>
+    <audio id="song3" src="music/lagu3.mp3"></audio>
+
+    <button id="nextMusic" onclick="goToPage2()" style="display:none;margin-top:25px;">
+      Lanjut
+    </button>
+
+  </div>
+</div>
+
+
+<div id="page2" class="page">
+  <div class="box">
+    <p id="text">haloooooo hehhehe</p>
+    <button onclick="nextText()">Klik</button>
+  </div>
+</div>
+
+<div id="pageFinal" class="page">
+  <canvas id="fireworksCanvas"></canvas>
+
+  <h1 style="font-size:50px;color:black;">
+    BARAKALLAH FII UMRIK NAD
+  </h1>
+
+  <p style="color:black;font-size:20px;">
+    Selamat hari jadi ke 20
+  </p>
+
+  <div id="imageGrid" class="image-grid">
+    <div class="img-box"><img src="images/BG1.jpg"></div>
+    <div class="img-box"><img src="images/BG1.jpg"></div>
+    <div class="img-box"><img src="images/BG1.jpg"></div>
+    <div class="img-box"><img src="images/BG1.jpg"></div>
+    <div class="img-box"><img src="images/BG1.jpg"></div>
+    <div class="img-box"><img src="images/BG1.jpg"></div>
   </div>
 
+  <div class="letter-box">
+    <h2 style="color:black;margin-bottom:10px;">💌 Buat Nadiyaw</h2>
+    <p style="color:black;line-height:1.7;">
+    Selamat hari jadi yang ke 20, nadd ♡♡♡
+    <br>
+    Sudah mulai menginjak kepala 2, Semoga di tahun ini sampai seterusnya kmu selalu dikelilingi hal-hal baik, tanpa terkecuali.
+    Semoga di hari bahagia ini sampai seterusnya selalu dipermudah urusannya, diberi keberkahan umur, diberi banyak rezeki, dan semua hal-hal baik yang gabisa aku sebutin satu-satu.
 
-  <div id="pageMusic" style="display:none;">
-    <h3>Halaman Musik 🎧</h3>
-    <p>Nanti ini isinya musik💗</p>
+    <br>
+    <br>
+    Haloo temenku dari SD! Semoga kamu dalam keadaan baikk ya pas baca ini. Ga nyangka kita temenan seawet ini, mungkin juga karena kita satu sekolah terus dari SD sampai kuliah ini. 
+    Hal yang harus kamu tau kl kamu keren nad udah sampe di tahap ini. Dan kita udah temenan, bareng-bareng ngelewatin banyak hal yang menurutku banyak senengnya wkwkw. 
+    Makasih yaww udah selalu ajak aku kl kamu pengen keluar, udah banyak kasih aku jajan, trus makasih juga udah selalu ngingetin aku dan ngajak aku buat ke hal baik. 
+    Walaupun selama kita temenan ga banyak main bareng, atau ga se setiap hari itu tukeran kabar, tapi aku tetep bersyukur bisa temenan sama kamu.
+    Semoga di perkuliahan ini, di semester-semester selanjutnya kamu banyak ketemu hal yang tetep bikin kamu merasa 'pantas', merasa cukup, merasa aman, merasa dihargai, dan semua yang biki kmu merasa ga salah ada di lingkungan yang kamu jalani nanti.
+    Semoga kebahagiaanmu di tahun ini ga datang dari orang lain ya, nad. Tapi dari dalam diri kamu sendiri. Enjoy kan nad ngejalani dunia perkuliahan? wkwkw
+    Semoga kamu dijauhin dari orang orang yang iri, semoga kamu dikasih ingatan yang panjang biar ga lupa terus (bercanda nad tapi kamu mau kan didoain gini wkwk), semoga bantalmu dingin terus,
+    semoga kasurmu nyaman dan bersih terus biar kl kamu mau tidur langsung tinggal tidur, dan semoga untuk hal- hal kecil baik lainnya yang mungkin terlewat dan ga keliatan tapi berharga buat kamu. 
+
+    <br>
+    <br>
+    Nulis disini ga selancar nulis di kertas ya aku bingung harus nulis apalagi... maaf ya nad cuma bisa ngasih ini. Tapi ini mahal nad, mahal effortnya wkwkwkwkw. percaya ga kl aku buat sendiri, yh harus percaya sih ini sekarang tanggal 22 November BTW jadi aku emg udah bikin dari h-sebulan. Ih kapan lagi kmu nemu tmn seeffort ini
+    <br>
+    Sekali lagi selamat ulang tahun yang ke-20 ya Nadddd ! Tetep jadi nadnud dengan segala kebaikan yang kamu bawa dan semoga kita bisa temenan sampe punya cucu (kl nyampe). Aamiin. dah
+
+  </p>
   </div>
+  <h5 style="color:black;margin-top:50px;"> Trus tau ga si nad aku kan taruh di keychain barcode ini sama bawahnya tuh ada qr ke spotify. Kl kamu scan kamu bakal diarahin ke sebuah playlist yang aku bikin buat kamu, anjay. Aku milih lagu nya asal tapi ngga ngasal juga tau nadd. Tapi kamu tau ngga kenapa ngga ngasalnya... coba deh kamu pencet gambar gambar dibawah ini</h2>
+  <div class="cards-container">
+    <div class="card" onclick="openCard(this)">
+      <div class="card-front">
+        <img src="images/SP1.jpg" class="card-img">
+      </div>
+      <div class="card-back">
+        <img src="images/SP11.jpg" class="card-img">
+      </div>
+    </div>
 
+    <div class="card" onclick="openCard(this)">
+      <div class="card-front">
+        <img src="images/sp2.jpg" class="card-img">
+      </div>
+      <div class="card-back">
+        <img src="images/SP22.jpg" class="card-img">
+      </div>
+    </div>
+  </div>
+  <h5 style="color: black;margin-top: 50px;">WKWKWKW gatau sih kamu udah notice ini apa blm tapi aku kasih tau aja. Jadi dengerin ya nad hehe ini lagunya aku cari yang kira-kira pas buat kamuu</h2>
 </div>
 
 <script>
-  let step = 0;
-  const messages = [
-    "Haii! 👋",
-    "1",
-    "2 😆",
-    "Sebelumnya makasih udah buka web ini dulu hehe",
-    "apa aja lah ini belum selesai🙈",
-    "wkwk",
-    "bentar😭",
-    "Okee",
-    "😝",
-    "yhh intinya gini ya semoga waktunya cukup wkwkw"
-  ];
+  let currentSong = null;
+
+  function playMusic(id) {
+    if (currentSong && currentSong !== document.getElementById(id)) {
+      currentSong.pause();
+      currentSong.currentTime = 0;
+    }
+
+    const song = document.getElementById(id);
+    song.play();
+    currentSong = song;
+
+    document.getElementById("nextMusic").style.display = "inline-block";
+  }
+
+  function showIntro() {
+    hideAll();
+    document.getElementById("pageIntro").style.display = "flex";
+  }
+
+  function hideAll() {
+    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+  }
+
+  function goToWelcome() {
+    hideAll();
+    document.getElementById('page0').style.display = 'flex';
+  }
+
+  function goToPage1() {
+    hideAll();
+    document.getElementById('page1').style.display = 'flex';
+  }
 
   function startExperience() {
     const chosenColor = document.getElementById('colorSelect').value;
     document.body.style.background = chosenColor;
 
-    document.getElementById('page1').style.display = 'none';
-    document.getElementById('page2').style.display = 'block';
+    hideAll();
+    document.getElementById('pageMusic').style.display = 'flex';
   }
 
-  function nextText() {
-    step++;
-    if (step < messages.length) {
-      document.getElementById('text').innerText = messages[step];
-    } else {
-      
-      document.getElementById('page2').style.display = 'none';
-      document.getElementById('pageMusic').style.display = 'block';
-    }
+  function goToPage2() {
+    hideAll();
+    document.getElementById('page2').style.display = 'flex';
   }
+
+  let step = 0;
+  const messages = [
+    "HAIIII",
+    "Okee sekarang kan udah pilih musiknyaa, terus ?",
+  ];
+
+  function nextText() {
+  step++;
+  if (step < messages.length) {
+    document.getElementById('text').innerText = messages[step];
+  } else {
+    hideAll();
+    const final = document.getElementById('pageFinal');
+    final.style.display = 'flex';
+    final.scrollTop = 0;
+    
+    startFireworks();
+
+    setTimeout(() => {
+      startHearts();
+      revealGridImages();
+    }, 4000);
+  } 
+
+}
+
 </script>
+
+<script>
+function startHearts() {
+  const heartsContainer = document.createElement("div");
+  heartsContainer.className = "hearts";
+  document.body.appendChild(heartsContainer);
+
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "♥";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (20 + Math.random() * 20) + "px";
+    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+    heartsContainer.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+  }, 400);
+}
+</script>
+<script>
+function openCard(el) {
+  el.classList.toggle("open");
+}
+</script>
+<script>
+function startFireworks() {
+    const canvas = document.getElementById("fireworksCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = 250; 
+
+    let particles = [];
+
+    function random(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    function createFirework() {
+        const x = random(100, canvas.width - 100);
+        const y = random(50, 150);
+
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: x,
+                y: y,
+                angle: random(0, Math.PI * 2),
+                speed: random(1, 4),
+                radius: random(1, 3),
+                alpha: 1
+            });
+        }
+    }
+
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach((p, index) => {
+            p.x += Math.cos(p.angle) * p.speed;
+            p.y += Math.sin(p.angle) * p.speed;
+            p.alpha -= 0.02;
+
+            ctx.fillStyle = `rgba(255, 200, 50, ${p.alpha})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (p.alpha <= 0) particles.splice(index, 1);
+        });
+
+        requestAnimationFrame(update);
+    }
+
+    setInterval(createFirework, 800);
+    update();
+}
+</script>
+<script>
+function revealGridImages() {
+  const boxes = document.querySelectorAll(".img-box");
+  boxes.forEach((box, i) => {
+    setTimeout(() => {
+      box.classList.add("show");
+    }, 500 * i); 
+  });
+}
+
+</script>
+<script>
+  let sudahAlert = false;
+
+  document.getElementById("pageFinal").addEventListener("scroll", function () {
+    const halaman = this; 
+    const posisiScroll = halaman.scrollTop + halaman.clientHeight;
+    const tinggiKonten = halaman.scrollHeight;
+
+    if (!sudahAlert && posisiScroll >= tinggiKonten - 10) {
+      alert("Kamu sudah sampai akhir halaman!");
+      sudahAlert = true;
+    }
+  });
+</script>
+
 
 </body>
 </html>
-
-
-
