@@ -10,7 +10,8 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      overflow: hidden; 
+      overflow-x: hidden; 
+      overflow-y: auto;
       background-image: url('images/BG1.jpg');
       background-size: cover;
       background-position: center;
@@ -165,10 +166,11 @@
 
     .card {
       position: relative;
-      height: 300px;
-      width: 240px;
+      width: 100%;
+      max-width: 240px;
       perspective: 1000px;
       cursor: pointer;
+      aspect-ratio: 3 / 4;
     }
 
     .card-front, .card-back {
@@ -243,9 +245,102 @@
       object-fit: cover;
     }
 
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .image-grid {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    .card {
+      width: 45vw;
+      max-width: 240px;
+      height: auto;
+    }
+
+    .card-front, .card-back {
+      height: auto;
+    }
+    .card-img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
   </style>
     
 </head>
+
+<style>
+
+  #password-screen {
+    position: fixed;
+    inset: 0;
+    background: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+  }
+
+  #password-box {
+    padding: 25px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 80%;
+    max-width: 350px;
+  }
+
+  #password-box input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+
+  #password-box button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #3b82f6;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  #password-box button:hover {
+    background: #2563eb;
+  }
+</style>
+
+<div id="password-screen">
+  <div id="password-box">
+    <h3>Masukkan Password</h3>
+    <input id="passInput" type="password" placeholder="*******">
+    <button onclick="checkPass()">Buka</button>
+    <p id="wrong" style="color:red; margin-top:10px; display:none;">Password salah!</p>
+  </div>
+</div>
+
+<script>
+  function checkPass() {
+    let input = document.getElementById('passInput').value;
+
+    if (input === "20") { 
+      document.getElementById('password-screen').style.display = "none";
+    } else {
+      document.getElementById('wrong').style.display = "block";
+    }
+  }
+</script>
+
 <body onload="showIntro()">
 
 <div id="pageIntro" class="page" style="display:flex;">
@@ -572,7 +667,7 @@ function revealGridImages() {
   boxes.forEach((box, i) => {
     setTimeout(() => {
       box.classList.add("show");
-    }, 500 * i); 
+    }, 500 * i);
   });
 }
 
