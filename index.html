@@ -6,13 +6,28 @@
   <title>Selamat Datang di 20!</title>
 
   <style>
+
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    footer {
+        margin-top: auto;
+    }
+
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
       overflow-x: hidden; 
       overflow-y: auto;
-      background-image: url('images/BG1.jpg');
+      background-image: url('images/BG2.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -39,7 +54,7 @@
       width: 100%;
       height: 250px; 
       pointer-events: none;
-      z-index: 2;
+      z-index: -1;
     }
 
     #pageFinal {
@@ -278,7 +293,7 @@
   #password-screen {
     position: fixed;
     inset: 0;
-    background: #f7f7f7;
+    background: gray;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -289,7 +304,7 @@
 
   #password-box {
     padding: 25px;
-    background: white;
+    background: pink;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     text-align: center;
@@ -322,10 +337,10 @@
 
 <div id="password-screen">
   <div id="password-box">
-    <h3>Masukkan Password</h3>
+    <h3>Masukkan Password 2 Digit</h3>
     <input id="passInput" type="password" placeholder="*******">
     <button onclick="checkPass()">Buka</button>
-    <p id="wrong" style="color:red; margin-top:10px; display:none;">Password salah!</p>
+    <p id="wrong" style="color:red; margin-top:10px; display:none;">LAH GA APAL TANGGAL LAHIR NAD?</p>
   </div>
 </div>
 
@@ -333,7 +348,7 @@
   function checkPass() {
     let input = document.getElementById('passInput').value;
 
-    if (input === "20") { 
+    if (input === "12") { 
       document.getElementById('password-screen').style.display = "none";
     } else {
       document.getElementById('wrong').style.display = "block";
@@ -450,12 +465,12 @@
   </p>
 
   <div id="imageGrid" class="image-grid">
-    <div class="img-box"><img src="images/BG1.jpg"></div>
-    <div class="img-box"><img src="images/BG1.jpg"></div>
-    <div class="img-box"><img src="images/BG1.jpg"></div>
-    <div class="img-box"><img src="images/BG1.jpg"></div>
-    <div class="img-box"><img src="images/BG1.jpg"></div>
-    <div class="img-box"><img src="images/BG1.jpg"></div>
+    <div class="img-box"><img src="images/foto1.jpg"></div>
+    <div class="img-box"><img src="images/foto2.jpg"></div>
+    <div class="img-box"><img src="images/foto3.jpg"></div>
+    <div class="img-box"><img src="images/foto4.jpg"></div>
+    <div class="img-box"><img src="images/foto5.jpg"></div>
+    <div class="img-box"><img src="images/foto6.jpg"></div>
   </div>
 
   <div class="letter-box">
@@ -479,7 +494,11 @@
 
     <br>
     <br>
-    Nulis disini ga selancar nulis di kertas ya aku bingung harus nulis apalagi... maaf ya nad cuma bisa ngasih ini. Tapi ini mahal nad, mahal effortnya wkwkwkwkw. percaya ga kl aku buat sendiri, yh harus percaya sih ini sekarang tanggal 22 November BTW jadi aku emg udah bikin dari h-sebulan. Ih kapan lagi kmu nemu tmn seeffort ini
+    Nulis disini ga selancar nulis di kertas ya aku bingung harus nulis apalagi... maaf ya nad cuma bisa ngasih ini. Wey BTW maaf gambarnya ga HD,tulisannya gajelas.. diluar kendali ku itu busett ga ekspek, hehe.
+    aku mikir kata susah-susah, pas nyampe tulisane burem. ni ntar dibawah kukasi liat desain jelasnya ya, padahal setiap yg ada di keychainnya penting, malah burem kabeh. Tapi gpp lah so far masih lucu.
+    <br>
+    Tapi suka kan nad? harus sih. ini mahal effortnya nad wkwkwkwkw. ini sekarang tanggal 22 November BTW. Ih kapan lagi kmu nemu tmn seeffort ini
+    Hi! Ini sekarang tgl 3 desember wkaka.
     <br>
     Sekali lagi selamat ulang tahun yang ke-20 ya Nadddd ! Tetep jadi nadnud dengan segala kebaikan yang kamu bawa dan semoga kita bisa temenan sampe punya cucu (kl nyampe). Aamiin. dah
 
@@ -507,6 +526,7 @@
   </div>
   <h5 style="color: black;margin-top: 50px;">WKWKWKW gatau sih kamu udah notice ini apa blm tapi aku kasih tau aja. Jadi dengerin ya nad hehe ini lagunya aku cari yang kira-kira pas buat kamuu</h2>
 </div>
+
 
 <script>
   let currentSong = null;
@@ -672,6 +692,7 @@ function revealGridImages() {
 }
 
 </script>
+
 <script>
   let sudahAlert = false;
 
@@ -684,9 +705,17 @@ function revealGridImages() {
       alert("Kamu sudah sampai akhir halaman!");
       sudahAlert = true;
     }
+
   });
 </script>
 
+<footer style="
+    text-align:center;
+    padding:12px;
+    font-size:13px;
+    color:#666;">
+    © 2025 | Dalam Rangka 12.12 yang ke-20 - Made with ♡♡♡ - Winda Imup
+</footer>
 
 </body>
 </html>
